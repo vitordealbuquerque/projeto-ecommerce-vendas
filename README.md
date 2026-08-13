@@ -1,6 +1,6 @@
 # Análise de Dados na Prática: Comportamento de Vendas em um E-commerce
 
-Projeto de portfólio de Vitor Franca, engenheiro civil migrando para análise de dados. Dashboard em Power BI (arquivo `EcommerceVendas.pbip` na raiz do repositório, print entra assim que eu rodar o modelo localmente no Power BI Desktop).
+Projeto de portfólio de Vitor Franca, engenheiro civil migrando para análise de dados. Dashboard em Power BI (arquivo `EcommerceVendas.pbip` na raiz do repositório).
 
 ![Fluxo de ferramentas do projeto](06_prints/fluxograma_ferramentas.png)
 
@@ -24,15 +24,11 @@ Livros lidera o faturamento por categoria com R$ 229.473,07 (18,51% do total), s
 
 ## Estrutura do repositório
 
-`02_sql/` reúne os quatro scripts SQL na ordem de execução (criação, carga, limpeza, análises). `03_dados/` tem os CSVs sintéticos com delimitador `;`. `06_prints/` guarda o fluxograma do pipeline e os prints reais de execução. `EcommerceVendas.pbip`, `EcommerceVendas.SemanticModel` e `EcommerceVendas.Report` compõem o projeto Power BI, abertos direto no Power BI Desktop.
+`02_sql/` reúne os quatro scripts SQL (criação, carga, limpeza, análises). `03_dados/` tem os CSVs sintéticos com delimitador `;`. `06_prints/` guarda o fluxograma do pipeline e o print da consulta. `EcommerceVendas.pbip`, `EcommerceVendas.SemanticModel` e `EcommerceVendas.Report` compõem o projeto Power BI.
 
 ## O que o dashboard mostra
 
 Faturamento total, ticket médio e mediano, taxa de cancelamento e de atraso na entrega ficam nos cards do topo. Um gráfico de barras mostra o volume de itens vendidos por categoria, um donut mostra a participação de cada forma de pagamento no faturamento, uma linha temporal mostra a evolução mensal do faturamento entre agosto de 2024 e julho de 2026, e um último gráfico compara o ticket médio entre as cinco regiões do país.
-
-## Rodando localmente
-
-Com PostgreSQL instalado, rode os quatro scripts de `02_sql/` na ordem, a partir da pasta raiz do projeto (o `\copy` referencia os CSVs por caminho relativo). Depois é só abrir `EcommerceVendas.pbip` no Power BI Desktop e apontar as fontes de dados para o caminho local dos CSVs, caso o caminho original não exista na máquina.
 
 ## Autor
 
