@@ -1,0 +1,11 @@
+relationship Pedidos_cliente_id_Clientes_cliente_id
+	fromColumn: Pedidos.cliente_id
+	toColumn: Clientes.cliente_id
+
+relationship ItensPedido_pedido_id_Pedidos_pedido_id
+	fromColumn: ItensPedido.pedido_id
+	toColumn: Pedidos.pedido_id
+
+relationship ItensPedido_produto_id_Produtos_produto_id
+	fromColumn: ItensPedido.produto_id
+	toColumn: Produtos.produto_id

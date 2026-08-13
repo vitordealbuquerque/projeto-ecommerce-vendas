@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "v1",
+  "position": { "x": 20, "y": 60, "z": 0, "width": 230, "height": 100, "tabOrder": 0 },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "Pedidos" } }, "Property": "Total Pedidos" } }, "queryRef": "Pedidos.Total Pedidos", "nativeQueryRef": "Total Pedidos" }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+table Clientes
+	lineageTag: 11111111-0001-4a01-a001-000000000001
+
+	measure 'Total Clientes' = COUNTROWS(Clientes)
+		formatString: #,##0
+		lineageTag: 11111111-0001-4a01-a001-000000000011
+
+	measure 'Clientes com Recompra %' = ```
+			VAR PedidosValidos = FILTER(Pedidos, Pedidos[status_entrega] <> "Cancelado")
+			VAR ClientesComPedido = SUMMARIZE(PedidosValidos, Pedidos[cliente_id], "n", COUNTROWS(PedidosValidos))
+			RETURN
+			DIVIDE(COUNTROWS(FILTER(ClientesComPedido, [n] > 1)), COUNTROWS(ClientesComPedido))
+			```
+		formatString: 0.0%
+		lineageTag: 11111111-0001-4a01-a001-000000000012
+
+	column cliente_id
+		dataType: int64
+		lineageTag: 11111111-0001-4a01-a001-000000000021
+		sourceColumn: cliente_id
+
+	column regiao
+		dataType: string
+		lineageTag: 11111111-0001-4a01-a001-000000000022
+		sourceColumn: regiao
+
+	column canal_aquisicao
+		dataType: string
+		lineageTag: 11111111-0001-4a01-a001-000000000023
+		sourceColumn: canal_aquisicao
+
+	column data_cadastro
+		dataType: dateTime
+		lineageTag: 11111111-0001-4a01-a001-000000000024
+		sourceColumn: data_cadastro
+
+	column ano_mes_cadastro
+		dataType: string
+		lineageTag: 11111111-0001-4a01-a001-000000000025
+		sourceColumn: ano_mes_cadastro
+
+	partition Clientes = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Dell\AppData\Roaming\Claude\local-agent-mode-sessions\8893d103-d0e5-48f2-8cf7-a7a430521985\7460d887-44bc-48ad-97a1-3fec4c63f078\local_74e3896c-e2eb-4212-876e-8d8511242508\outputs\projeto-ecommerce-vendas\03_dados\clientes.csv"),[Delimiter=";", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers,{{"cliente_id", Int64.Type}, {"regiao", type text}, {"canal_aquisicao", type text}, {"data_cadastro", type date}}, "en-US")
+				in
+				    Typed

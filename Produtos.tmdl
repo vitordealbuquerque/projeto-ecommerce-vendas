@@ -1,0 +1,35 @@
+table Produtos
+	lineageTag: 22222222-0002-4a02-a002-000000000001
+
+	measure 'Total Produtos' = COUNTROWS(Produtos)
+		formatString: #,##0
+		lineageTag: 22222222-0002-4a02-a002-000000000011
+
+	measure 'Preço Médio' = AVERAGE(Produtos[preco_unitario])
+		formatString: "R$" #,##0.00
+		lineageTag: 22222222-0002-4a02-a002-000000000012
+
+	column produto_id
+		dataType: int64
+		lineageTag: 22222222-0002-4a02-a002-000000000021
+		sourceColumn: produto_id
+
+	column categoria
+		dataType: string
+		lineageTag: 22222222-0002-4a02-a002-000000000022
+		sourceColumn: categoria
+
+	column preco_unitario
+		dataType: double
+		lineageTag: 22222222-0002-4a02-a002-000000000023
+		sourceColumn: preco_unitario
+
+	partition Produtos = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Dell\AppData\Roaming\Claude\local-agent-mode-sessions\8893d103-d0e5-48f2-8cf7-a7a430521985\7460d887-44bc-48ad-97a1-3fec4c63f078\local_74e3896c-e2eb-4212-876e-8d8511242508\outputs\projeto-ecommerce-vendas\03_dados\produtos.csv"),[Delimiter=";", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers,{{"produto_id", Int64.Type}, {"categoria", type text}, {"preco_unitario", type number}}, "en-US")
+				in
+				    Typed

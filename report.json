@@ -1,0 +1,6 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/2.4.0/schema.json",
+  "layoutOptimization": "None",
+  "publicCustomVisuals": [],
+  "resourcePackages": []
+}

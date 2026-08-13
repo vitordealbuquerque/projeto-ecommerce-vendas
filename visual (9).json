@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "v9",
+  "position": { "x": 660, "y": 460, "z": 0, "width": 600, "height": 240, "tabOrder": 8 },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Clientes" } }, "Property": "regiao" } }, "queryRef": "Clientes.regiao", "nativeQueryRef": "regiao" }
+          ]
+        },
+        "Y": {
+          "projections": [
+            { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "Pedidos" } }, "Property": "Ticket Médio" } }, "queryRef": "Pedidos.Ticket Médio", "nativeQueryRef": "Ticket Médio" }
+          ]
+        }
+      }
+    }
+  }
+}

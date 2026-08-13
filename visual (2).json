@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "v2",
+  "position": { "x": 270, "y": 60, "z": 0, "width": 230, "height": 100, "tabOrder": 1 },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "Pedidos" } }, "Property": "Faturamento Total" } }, "queryRef": "Pedidos.Faturamento Total", "nativeQueryRef": "Faturamento Total" }
+          ]
+        }
+      }
+    }
+  }
+}

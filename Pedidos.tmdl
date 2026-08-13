@@ -1,0 +1,72 @@
+table Pedidos
+	lineageTag: 33333333-0003-4a03-a003-000000000001
+
+	measure 'Total Pedidos' = CALCULATE(COUNTROWS(Pedidos), Pedidos[status_entrega] <> "Cancelado")
+		formatString: #,##0
+		lineageTag: 33333333-0003-4a03-a003-000000000011
+
+	measure 'Faturamento Total' = CALCULATE(SUM(Pedidos[valor_total]), Pedidos[status_entrega] <> "Cancelado")
+		formatString: "R$" #,##0.00
+		lineageTag: 33333333-0003-4a03-a003-000000000012
+
+	measure 'Ticket Médio' = DIVIDE([Faturamento Total], [Total Pedidos])
+		formatString: "R$" #,##0.00
+		lineageTag: 33333333-0003-4a03-a003-000000000013
+
+	measure 'Ticket Mediano' = CALCULATE(MEDIAN(Pedidos[valor_total]), Pedidos[status_entrega] <> "Cancelado")
+		formatString: "R$" #,##0.00
+		lineageTag: 33333333-0003-4a03-a003-000000000014
+
+	measure '% Cancelado' = DIVIDE(CALCULATE(COUNTROWS(Pedidos), Pedidos[status_entrega] = "Cancelado"), COUNTROWS(Pedidos))
+		formatString: 0.0%
+		lineageTag: 33333333-0003-4a03-a003-000000000015
+
+	measure '% Atrasado' = DIVIDE(CALCULATE(COUNTROWS(Pedidos), Pedidos[status_entrega] = "Entregue com Atraso"), COUNTROWS(Pedidos))
+		formatString: 0.0%
+		lineageTag: 33333333-0003-4a03-a003-000000000016
+
+	column pedido_id
+		dataType: int64
+		lineageTag: 33333333-0003-4a03-a003-000000000021
+		sourceColumn: pedido_id
+
+	column cliente_id
+		dataType: int64
+		lineageTag: 33333333-0003-4a03-a003-000000000022
+		sourceColumn: cliente_id
+
+	column data_pedido
+		dataType: dateTime
+		lineageTag: 33333333-0003-4a03-a003-000000000023
+		sourceColumn: data_pedido
+
+	column forma_pagamento
+		dataType: string
+		lineageTag: 33333333-0003-4a03-a003-000000000024
+		sourceColumn: forma_pagamento
+
+	column status_entrega
+		dataType: string
+		lineageTag: 33333333-0003-4a03-a003-000000000025
+		sourceColumn: status_entrega
+
+	column valor_total
+		dataType: double
+		lineageTag: 33333333-0003-4a03-a003-000000000026
+		sourceColumn: valor_total
+
+	column ano_mes
+		dataType: string
+		lineageTag: 33333333-0003-4a03-a003-000000000027
+		sourceColumn: ano_mes
+
+	partition Pedidos = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Dell\AppData\Roaming\Claude\local-agent-mode-sessions\8893d103-d0e5-48f2-8cf7-a7a430521985\7460d887-44bc-48ad-97a1-3fec4c63f078\local_74e3896c-e2eb-4212-876e-8d8511242508\outputs\projeto-ecommerce-vendas\03_dados\pedidos.csv"),[Delimiter=";", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers,{{"pedido_id", Int64.Type}, {"cliente_id", Int64.Type}, {"data_pedido", type date}, {"forma_pagamento", type text}, {"status_entrega", type text}, {"valor_total", type number}}, "en-US"),
+				    AddAnoMes = Table.AddColumn(Typed, "ano_mes", each Date.ToText([data_pedido], "yyyy-MM"), type text)
+				in
+				    AddAnoMes

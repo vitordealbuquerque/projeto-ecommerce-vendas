@@ -1,0 +1,50 @@
+table ItensPedido
+	lineageTag: 44444444-0004-4a04-a004-000000000001
+
+	measure 'Total Itens' = COUNTROWS(ItensPedido)
+		formatString: #,##0
+		lineageTag: 44444444-0004-4a04-a004-000000000011
+
+	measure 'Desconto Médio %' = AVERAGE(ItensPedido[desconto_pct])
+		formatString: 0.00"%"
+		lineageTag: 44444444-0004-4a04-a004-000000000012
+
+	column item_id
+		dataType: int64
+		lineageTag: 44444444-0004-4a04-a004-000000000021
+		sourceColumn: item_id
+
+	column pedido_id
+		dataType: int64
+		lineageTag: 44444444-0004-4a04-a004-000000000022
+		sourceColumn: pedido_id
+
+	column produto_id
+		dataType: int64
+		lineageTag: 44444444-0004-4a04-a004-000000000023
+		sourceColumn: produto_id
+
+	column quantidade
+		dataType: int64
+		lineageTag: 44444444-0004-4a04-a004-000000000024
+		sourceColumn: quantidade
+
+	column desconto_pct
+		dataType: double
+		lineageTag: 44444444-0004-4a04-a004-000000000025
+		sourceColumn: desconto_pct
+
+	column subtotal
+		dataType: double
+		lineageTag: 44444444-0004-4a04-a004-000000000026
+		sourceColumn: subtotal
+
+	partition ItensPedido = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Dell\AppData\Roaming\Claude\local-agent-mode-sessions\8893d103-d0e5-48f2-8cf7-a7a430521985\7460d887-44bc-48ad-97a1-3fec4c63f078\local_74e3896c-e2eb-4212-876e-8d8511242508\outputs\projeto-ecommerce-vendas\03_dados\itens_pedido.csv"),[Delimiter=";", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers,{{"item_id", Int64.Type}, {"pedido_id", Int64.Type}, {"produto_id", Int64.Type}, {"quantidade", Int64.Type}, {"desconto_pct", type number}, {"subtotal", type number}}, "en-US")
+				in
+				    Typed
