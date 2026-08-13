@@ -2,6 +2,8 @@
 
 Projeto de portfólio de Vitor Franca, engenheiro civil migrando para análise de dados. Dashboard em Power BI (arquivo `EcommerceVendas.pbip` na raiz do repositório).
 
+![Dashboard completo do projeto](06_prints/print_dashboard_final.png)
+
 ![Fluxo de ferramentas do projeto](06_prints/fluxograma_ferramentas.png)
 
 ## A base
@@ -19,6 +21,10 @@ Livros lidera o faturamento por categoria com R$ 229.473,07 (18,51% do total), s
 **Tratamento e análise em SQL.** As tabelas foram criadas com schema próprio e constraints (`01_criar_tabelas.sql`), os CSVs carregados via `\copy` com delimitador `;` (`02_carregar_dados.sql`), e a limpeza cobriu checagem de nulos, outliers em `valor_total` via `PERCENTILE_CONT` e criação de colunas derivadas como `ano_mes` (`03_limpeza.sql`). As análises finais (`04_analises.sql`) usam CTE, window functions (`RANK()`, `SUM() OVER()`), `PERCENTILE_CONT` e `FILTER` para chegar nos números de faturamento, cancelamento, recompra e ranking de clientes.
 
 ![Print real da consulta de faturamento por categoria](06_prints/print_sql_faturamento_categoria.png)
+
+![Print real da consulta de evolução mensal de faturamento](06_prints/print_sql_evolucao_mensal.png)
+
+![Print real da consulta de taxa de recompra](06_prints/print_sql_recompra.png)
 
 **Dashboard em Power BI.** O modelo semântico (`EcommerceVendas.SemanticModel`) conecta as quatro tabelas por relacionamento de chave estrangeira e centraliza as medidas DAX (Faturamento Total, Ticket Médio, % Cancelado, % Atrasado, Clientes com Recompra %, entre outras). O relatório (`EcommerceVendas.Report`) traz cards de KPI, faturamento por categoria, distribuição por forma de pagamento, evolução mensal de faturamento e ticket médio por região.
 
