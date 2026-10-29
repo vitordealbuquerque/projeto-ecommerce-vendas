@@ -18,7 +18,7 @@ UPDATE pedidos SET ano_mes = TO_CHAR(data_pedido, 'YYYY-MM');
 ALTER TABLE clientes ADD COLUMN IF NOT EXISTS ano_mes_cadastro VARCHAR(7);
 UPDATE clientes SET ano_mes_cadastro = TO_CHAR(data_cadastro, 'YYYY-MM');
 
--- remover pedidos cancelados sem nenhum item (integridade)
+-- remover pedidos sem nenhum item, qualquer que seja o status (integridade)
 DELETE FROM pedidos p
 WHERE NOT EXISTS (SELECT 1 FROM itens_pedido i WHERE i.pedido_id = p.pedido_id);
 
